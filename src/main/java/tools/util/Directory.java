@@ -53,4 +53,12 @@ public class Directory {
 	public static boolean create(String pathAddress) {
 		return (new File(pathAddress)).mkdirs();
 	}
+
+	public static File[] ls(String dataDir){
+		return new File(dataDir).listFiles();
+	}
+
+	public static boolean isDirectory(String dataDir){
+		return new File(dataDir).isDirectory();
+	}
 }

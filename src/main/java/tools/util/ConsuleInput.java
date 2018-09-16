@@ -19,5 +19,13 @@ public class ConsuleInput {
 		return (new String(scanner.nextLine().getBytes("UTF-8"), Charset
 				.forName("UTF-8")));
 	}
-	
+
+
+	public static String readStringUTF8(String msg) throws UnsupportedEncodingException{
+		if(msg.length()!=0){
+			System.out.println(msg+": ");
+		}
+		return (new String(scanner.nextLine().getBytes("UTF-8"), Charset
+				.forName("UTF-8")));
+	}
 }

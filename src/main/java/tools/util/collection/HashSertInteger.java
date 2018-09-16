@@ -1,10 +1,13 @@
 package tools.util.collection;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 
 public class HashSertInteger<K> {
 	HashMap<K, Integer> content;
-	
+    long allPutCount=0l;
+
 	public HashSertInteger() {
 		this.content=new HashMap<K, Integer>();
 	}
@@ -18,6 +21,7 @@ public class HashSertInteger<K> {
 	}
 	
 	public void put(K item){
+        allPutCount++;
 		if(this.content.containsKey(item))
 			this.content.put(item,this.content.get(item)+1);
 		else
@@ -29,6 +33,7 @@ public class HashSertInteger<K> {
 	}
 	
 	public void put(K item,Integer count){
+        allPutCount+=count;
 		if(this.content.containsKey(item))
 			this.content.put(item,this.content.get(item)+count);
 		else
@@ -61,10 +66,27 @@ public class HashSertInteger<K> {
 	}
 	
 	public void clear(){
+        this.allPutCount=0l;
 		this.content.clear();
 	}
 
 	public void setClear() {
 		clear();		
+	}
+
+    public long getAllPutCount() {
+        return allPutCount;
+    }
+
+	public Map<K, Integer> getMap() {
+		return content;
+	}
+
+	public Collection<Integer> values() {
+		return content.values();
+	}
+
+	public void addAll(Map<K, Integer> map) {
+		content.putAll(map);
 	}
 }

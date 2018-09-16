@@ -37,4 +37,14 @@ public class Time {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_h-mm-ss");
 		return sdf.format(date);
 	}
+
+	public static long getMilliSecondDistanceTime(long startTimeMillisSec) {
+		return System.currentTimeMillis() - startTimeMillisSec;
+	}
+
+
+	public static long getCurrentTime() {
+		return System.currentTimeMillis() - startTimeMillis;
+	}
+
 }

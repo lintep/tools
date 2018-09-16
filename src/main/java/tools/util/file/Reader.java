@@ -48,7 +48,7 @@ public class Reader {
 	 * 
 	 * @param fileAddress
 	 * @return BufferedReader
-	 * @throws java.io.FileNotFoundException
+	 * @throws FileNotFoundException
 	 */
 	public static BufferedReader getFileBufferReader(String fileAddress)
 			throws FileNotFoundException {
@@ -61,7 +61,7 @@ public class Reader {
 	 *
 	 * @param file
 	 * @return BufferedReader
-	 * @throws java.io.FileNotFoundException
+	 * @throws FileNotFoundException
 	 */
 	public static BufferedReader getFileBufferReader(File file)
 			throws FileNotFoundException {
@@ -81,7 +81,7 @@ public class Reader {
 		int lines = 0;
 		BufferedReader reader;
 		try {
-			reader = new BufferedReader(new FileReader(textFileAddress));
+			reader = getFileBufferReader(textFileAddress);
 			String newLine;
 			while ((newLine = reader.readLine()) != null) {
 				output.add(newLine);
@@ -753,6 +753,54 @@ public class Reader {
 					System.err.println("can not read from line " + lines + "("
 							+ e.getMessage() + " )");
 				}
+
+				if (lines%10000000==0 && printMessage)
+					System.out.println(lines + " lines handled.");
+			}
+			reader.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (printMessage)
+			System.out.println(tools.util.File.getName(fileAddress) + "  have "
+					+ lines + " Line");
+		return output;
+	}
+
+	public static HashMap<String, Long> getKeyValueStringLongFromTextFile(
+			String fileAddress, Long defaultValue, Boolean printMessage,
+			String regex,int limitCount) {
+		HashMap<String, Long> output = new HashMap<String, Long>();
+		int lines = 0;
+		BufferedReader reader;
+		try {
+			reader = new BufferedReader(new FileReader(fileAddress));
+			String newLine;
+			while ((newLine = reader.readLine()) != null) {
+				lines++;
+				if(lines>limitCount){
+					break;
+				}
+				String[] splitLine = newLine.split(regex);
+				try {
+					String key = splitLine[0];
+					Long value = defaultValue;
+					try {
+						value = Long.valueOf(splitLine[1]);
+					} catch (Exception e) {
+						System.err.println(key
+								+ " set default value( can not read value:"
+								+ e.getMessage() + " )");
+					}
+					output.put(key, value);
+				} catch (Exception e) {
+					System.err.println("can not read from line " + lines + "("
+							+ e.getMessage() + " )");
+				}
 			}
 			reader.close();
 		} catch (FileNotFoundException e) {
@@ -1006,4 +1054,10 @@ public class Reader {
 		return output;
 	}
 
+	public static String getFirstLine(String fileAddress) throws IOException {
+		BufferedReader bf = getFileBufferReader(fileAddress);
+		String line = bf.readLine();
+		bf.close();
+		return line;
+	}
 }
